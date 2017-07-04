@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">WristBand</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="serverversion">获取服务器固件版本失败</string>
+    <string name="updating">升级中。。。</string>
+    <string name="upsucc">升级成功！</string>
+    <string name="uperror">升级失败，请重启蓝牙重试！</string>
+    <string name="downfile">下载文件中。。。</string>
+    <string name="downfilesuc">下载文件成功</string>
+    <string name="downfilefail">下载文件失败</string>
+
+    <!-- FWUpdate activity -->
+    <string name="title_oad">固件升级</string>
+    <string name="start_prog">开始升级</string>
+    <string name="prog_ogoing">升级固件过程中不能退出！</string>
+    <string name="FirmwareUpgrade">固件升级</string>
+    <string name="bind_warm">温馨提示</string>
+    <string name="FirmwareUpgrade_msg">固件升级过程中，由于连接不太稳定，手机或平板与设备处于未绑定状态，请重新升级,并请确保设备处于绑定状态。</string>
+    <string name="haveFirmware">检测到固件有最新版本，是否升级？</string>
+    <string name="firmware_msg">升级期间请勿操作，若升级一直不显示进度条或者升级失败请退出App，重新进入App升级！</string>
+    <string name="button_ok">确定</string>
+    <string name="baidu_locating">取消</string>
+    <string name="updatemsg">升级中，会等待一段时间，将不能进行任何操作，是否升级？</string>
+    <string name="updateerror">请重启蓝牙或者APP确定所有功能是否正常，异常则请重新升级。确定升级?</string>
+    <string name="updatesucc">升级成功！请重启蓝牙和APP！</string>
+
+    <!-- App 升级 -->
+    <string name="app_upd">版本更新</string>
+</resources>

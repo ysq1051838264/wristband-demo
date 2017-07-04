@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string-array name="menuItem">
+    <item>清除log</item>
+    <item>扫描设备</item>
+    <item>连接设备</item>
+    <item>断开设备</item>
+    <item>同步时间</item>
+    <item>获取设备信息</item>
+    <item>获取设备电池电量</item>
+    <item>设置个人信息</item>
+    <item>获取个人信息</item>
+    <item>设置运动目标</item>
+    <item>获取运动目标</item>
+    <item>获取运动数据</item>
+    <item>获取每小时运动数据</item>
+    <item>获取睡眠数据</item>
+    <item>设置闹钟</item>
+    <item>获取闹钟</item>
+    <item>设置提醒开关</item>
+    <item>获取提醒开关</item>
+    <item>OTA升级</item>
+    <item>查余额</item>
+    <item>查消费记录</item>
+    <item>充值</item>
+    <item>震动</item>
+    <item>来电话了</item>
+    <item>挂断电话了</item>
+    <item>获取设备时间</item>
+    <item>恢复出厂设置</item>
+    <item>测试模式</item>
+    <item>字库</item>
+    <item>老化测试</item>
+    <item>设置手环区域</item>
+    <item>获取手环区域</item>
+    <item>N023查余</item>
+    <item>上电</item>
+    <item>下电</item>
+ 
+   </string-array> 
+      
+</resources>

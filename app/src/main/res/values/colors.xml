@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="whitebg">#FFFFFF</color>
+    <color name="grey">#858585</color>
+    <color name="greyline">#D1D1D1</color>
+    <color name="textcolor">#1A9882</color>
+    <color name="greytextcolor">#000000</color>
+    <color name="blackbg">#000000</color>
+    
+    
+    <color name="orange">#FF6B02</color>
+    <color name="red">#FB0B0C</color>
+    <color name="green">#3E9F2B</color>
+    <color name="sportcolor">#1E9D85</color>
+    <color name="deepsleep">#55226F</color>
+    <color name="lightsleep">#BC84DB</color>
+    <color name="menu_bg">#2F3747</color>
+    
+    <color name="paygrey">#8E8E8E</color>
+    <color name="blue">#6ABFFF</color>
+    <color name="blue_bg_color">#009788</color>
+</resources>

@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+    }
+}
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.hdr.wristband"
+        minSdkVersion 18
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:0.24.0'
+
+    compile 'no.nordicsemi.android:dfu:0.6.3'
+
+    compile project(':BleLib')
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
+    compile "org.jetbrains.anko:anko-sdk15:$ANKO_VERSION"
+    compile("org.jetbrains.anko:anko-appcompat-v7:$ANKO_VERSION")
+    compile("org.jetbrains.anko:anko-recyclerview-v7:$ANKO_VERSION")
+    compile("org.jetbrains.anko:anko-gridlayout-v7:$ANKO_VERSION")
+    compile("org.jetbrains.anko:anko-design:$ANKO_VERSION")
+}
