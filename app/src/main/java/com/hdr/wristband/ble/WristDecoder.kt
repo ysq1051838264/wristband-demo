@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.hdr.wristband.put
+import com.hdr.wristband.xrz.XrzWristBleManager
 import org.jetbrains.anko.AnkoException
 import java.io.Serializable
 import java.util.*
@@ -19,6 +20,9 @@ import java.util.*
  * Created by hdr on 16/7/11.
  */
 abstract class WristDecoder(val context: Context, val commandSender: CommandSender) {
+
+    abstract val TIME_OUT_MILLISECOND: Long
+
     val localBroadcastManager by lazy { LocalBroadcastManager.getInstance(context) }
 
     /**
@@ -36,16 +40,21 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
     var timeoutAction = Runnable {
 
         sendBroadcast(WristBleService.CMD_TIME_OUT)
-        Log.i("hdr","手环命令超时")
+        Log.i("hdr", "手环命令超时")
         nextCmd()
     }
 
     //命令组,
     class CmdGroup<T : Any>(var type: String = "") {
 
-        constructor(cmd: ByteArray) : this() {
+        constructor(cmd: ByteArray) : this(cmd, null)
+
+        constructor(cmd: ByteArray, uuid: UUID?) : this() {
+            this.uuid = uuid
             this.addCmd(cmd)
         }
+
+        var uuid: UUID? = null
 
         val cmdQueue: Queue<ByteArray> = LinkedList<ByteArray>()
 
@@ -85,7 +94,7 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
         mainHandler.removeCallbacks(timeoutAction)
     }
 
-    fun sendCmd(value: ByteArray) {
+    open fun sendCmd(value: ByteArray) {
         sendCmd(CmdGroup<Any>(value))
     }
 
@@ -103,7 +112,7 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
         curCmdGroup?.let {
             val cmd = it.next()
             if (cmd != null) {
-                commandSender.send(cmd)
+                commandSender.send(it.uuid, cmd)
                 mainHandler.postDelayed(timeoutAction, 1000)
                 return
             }
@@ -114,12 +123,11 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
             if (cmd == null) {
                 nextCmd()
             } else {
-                commandSender.send(cmd)
-                mainHandler.postDelayed(timeoutAction, 1000)
+                commandSender.send(it.uuid, cmd)
+                mainHandler.postDelayed(timeoutAction, TIME_OUT_MILLISECOND)
             }
         }
     }
-
 
 
     fun <T : Any> sendResult(cmd: String, data: T) {
@@ -149,13 +157,13 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
     }
 
 
-
     abstract fun onReceiveData(uuid: UUID, pkgData: ByteArray)
 
     /**
      * 发送配对请求
      */
     abstract fun doPair()
+
     /**
      * 同步时间
      */
@@ -171,6 +179,8 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
      * 获取电池电量,返回电池电量
      */
     abstract fun getDeviceBattery()
+
+    abstract fun getDeviceInfo()
 
     abstract fun getSportData(dayIndex: Int)
 }

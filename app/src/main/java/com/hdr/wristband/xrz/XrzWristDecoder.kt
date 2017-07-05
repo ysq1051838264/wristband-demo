@@ -14,7 +14,7 @@ import java.util.*
  * Created by hdr on 16/7/11.
  */
 class XrzWristDecoder(context: Context, commandSender: CommandSender) : WristDecoder(context, commandSender) {
-
+    override val TIME_OUT_MILLISECOND = 1000L
 
     var data: ByteArray? = null
     var dataLength = -1
@@ -239,6 +239,10 @@ class XrzWristDecoder(context: Context, commandSender: CommandSender) : WristDec
         sendCmd(cmd)
     }
 
+    override fun getDeviceInfo() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun synTime() {
         sendCmd(synTimeCmd)
     }
@@ -254,7 +258,7 @@ class XrzWristDecoder(context: Context, commandSender: CommandSender) : WristDec
             val minute = cal.get(Calendar.MINUTE)
             val second = cal.get(Calendar.MINUTE)
 
-            return ProtocolHelper.merge(intArrayOf(0xC7, 0x03), intArrayOf(year shr 8, year and 0xFF, month, day, hour, minute, second));
+            return ProtocolHelper.merge(intArrayOf(0xC7, 0x03), intArrayOf(year shr 8, year and 0xFF, month, day, hour, minute, second))
         }
 }
 

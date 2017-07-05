@@ -55,7 +55,7 @@ class XrzWristBleManager(context: Context) : WristBleManager(context) {
 
     }
 
-    override fun send(value: ByteArray) {
+    override fun send(uuid: UUID?, value: ByteArray) {
         writeBgc?.let {
             val code = StringUtils.format(value)
             Log.i("hdr", "发送数据:$code")

@@ -313,6 +313,7 @@ class MainActivity : Activity() {
                 wristSendCmd(WristBleService.CMD_GET_DEVICE_BATTERY)
             }
             MyMenu.GET_DEVICE_INFO -> {
+                wristSendCmd(WristBleService.CMD_GET_DEVICE_INFO)
 //                startActivity<NordicFwUpdateActivity>()
             }
             MyMenu.GET_SPORT_DATA -> {

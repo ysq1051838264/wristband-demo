@@ -7,8 +7,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
+import com.hdr.wristband.ido.IdoWristDecoder
 import com.hdr.wristband.xrz.XrzWristBleManager
 import com.hdr.wristband.xrz.XrzWristDecoder
 import no.nordicsemi.android.nrftoolbox.profile.BleProfileService
@@ -26,7 +28,7 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
         @JvmStatic val STATE_SCANNING = 4
         @JvmStatic val STATE_CLOSED = 5
 
-        @JvmStatic val targetAddress = "C8:16:84:01:95:E5"
+        @JvmStatic val targetAddress = "C4:38:4C:2B:DF:D5"
 
         @JvmStatic val GROUP_TYPE_SYN_DATA = "group_type_syn_data"
 
@@ -57,6 +59,8 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
 
         @JvmStatic val CMD_GET_DEVICE_BATTERY = "cmd_get_device_battery"
 
+        @JvmStatic val CMD_GET_DEVICE_INFO = "cmd_get_device_info"
+
         @JvmStatic val CMD_GET_SPORT_DATA = "cmd_get_sport_data"
 
         @JvmStatic val CMD_GET_SLEEP_RECORD_DATA = "cmd_get_sleep_record_data"
@@ -69,7 +73,7 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
 
     var currentAddress: String = targetAddress
 
-    val wristBleManager by lazy { XrzWristBleManager(this) }
+    val wristBleManager by lazy { IdoWristBleManager(this) }
 
     var wristDecoder: WristDecoder? = null
         private set
@@ -87,6 +91,8 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
     var bleState: Int = BleProfileService.STATE_DISCONNECTED
 
     var scanHit = false
+    //已经扫描到了设备
+    var hasScan = false
     val scanner by lazy { BluetoothLeScannerCompat.getScanner() }
     val scanSettings by lazy { ScanSettings.Builder().setMatchMode(ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT).build() }
     val scanCallback = object : ScanCallback() {
@@ -97,6 +103,7 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
                 if (scanHit) {
                     return@post
                 }
+                hasScan = true
                 scanHit = true
                 scanner.stopScan(sc)
 
@@ -178,6 +185,9 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
                     CMD_GET_DEVICE_BATTERY -> {
                         wristDecoder.getDeviceBattery()
                     }
+                    CMD_GET_DEVICE_INFO -> {
+                        wristDecoder.getDeviceInfo()
+                    }
                 }
             }
         }
@@ -217,7 +227,7 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
 
     override fun onDeviceReady() {
         super.onDeviceReady()
-        wristDecoder = XrzWristDecoder(this, wristBleManager)
+        wristDecoder = IdoWristDecoder(this, wristBleManager)
 
         wristDecoder?.doSynData()
     }
@@ -253,7 +263,11 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
         postState(STATE_SCANNING)
 
         scanHit = false
-        scanner.startScan(listOf(ScanFilter.Builder().setDeviceAddress(currentAddress).build()), scanSettings, scanCallback)
+        if (needScanBeforeConnect()) {
+            scanner.startScan(listOf(ScanFilter.Builder().setDeviceAddress(currentAddress).build()), scanSettings, scanCallback)
+        } else {
+            wristBleManager.connect(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(targetAddress))
+        }
 
     }
 
@@ -262,6 +276,21 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
         if (bleState != STATE_DISCONNECTED && bleState != STATE_DISCONNECTING && bleState != STATE_LINK_LOSS) {
             wristBleManager.disconnect()
         }
+
+    }
+
+    fun needScanBeforeConnect(): Boolean {
+        if (hasScan) {
+            return false
+        }
+        val manufacturer = Build.MANUFACTURER
+        var needScanBeforeConnect = false
+
+
+        if ((manufacturer.equals("huawei", true)) || (manufacturer.equals("samsung", false))) {
+            needScanBeforeConnect = true
+        }
+        return needScanBeforeConnect;
 
     }
 }
