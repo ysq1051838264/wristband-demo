@@ -14,6 +14,38 @@ import java.util.*
  * Created by hdr on 16/7/11.
  */
 class XrzWristDecoder(context: Context, commandSender: CommandSender) : WristDecoder(context, commandSender) {
+    override fun sysHistorySleep(code: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sysHistoryHeartRate(code: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sysHistoryData() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sysHistorySport(code: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun findPhone(code: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sendSms() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun callPhone() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getHeartRate() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override val TIME_OUT_MILLISECOND = 1000L
 
     var data: ByteArray? = null

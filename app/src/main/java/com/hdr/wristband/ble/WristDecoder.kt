@@ -2,16 +2,11 @@ package com.hdr.wristband.ble
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcelable
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.hdr.wristband.put
-import com.hdr.wristband.xrz.XrzWristBleManager
-import org.jetbrains.anko.AnkoException
-import java.io.Serializable
 import java.util.*
 
 
@@ -181,6 +176,22 @@ abstract class WristDecoder(val context: Context, val commandSender: CommandSend
     abstract fun getDeviceBattery()
 
     abstract fun getDeviceInfo()
+
+    abstract fun getHeartRate()
+
+    abstract fun callPhone()
+
+    abstract fun sendSms()
+
+    abstract fun sysHistorySport(code: Int)
+
+    abstract fun sysHistorySleep(code: Int)
+
+    abstract fun sysHistoryHeartRate(code: Int)
+
+    abstract fun sysHistoryData()
+
+    abstract fun findPhone(code: Int)
 
     abstract fun getSportData(dayIndex: Int)
 }

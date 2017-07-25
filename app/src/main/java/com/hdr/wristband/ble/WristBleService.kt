@@ -2,7 +2,6 @@ package com.hdr.wristband.ble
 
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,8 +10,6 @@ import android.os.Build
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.hdr.wristband.ido.IdoWristDecoder
-import com.hdr.wristband.xrz.XrzWristBleManager
-import com.hdr.wristband.xrz.XrzWristDecoder
 import no.nordicsemi.android.nrftoolbox.profile.BleProfileService
 import no.nordicsemi.android.support.v18.scanner.*
 import org.jetbrains.anko.toast
@@ -28,7 +25,12 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
         @JvmStatic val STATE_SCANNING = 4
         @JvmStatic val STATE_CLOSED = 5
 
-        @JvmStatic val targetAddress = "C4:38:4C:2B:DF:D5"
+        //我的
+//        @JvmStatic val targetAddress = "EB:A5:AA:90:98:D1"
+        //标哥
+        @JvmStatic val targetAddress = "EA:35:91:87:07:2F"
+        //泉哥
+//        @JvmStatic val targetAddress = "CB:22:08:FE:5F:64"
 
         @JvmStatic val GROUP_TYPE_SYN_DATA = "group_type_syn_data"
 
@@ -69,6 +71,23 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
 
         @JvmStatic val CMD_TIME_OUT = "cmd_time_out"
 
+        @JvmStatic val CMD_IDO_GET_SLEEP_DATA = "cmd_ido_get_sleep_data"
+
+        @JvmStatic val CMD_IDO_GET_HEART_RATE_DATA = "cmd_ido_get_heart_rate_data"
+
+        @JvmStatic val CMD_CALL_PHONE = "cmd_call_phone"
+
+        @JvmStatic val CMD_SEND_SMS = "cmd_send_sms"
+
+        @JvmStatic val CMD_FIND_PHONE = "cmd_find_phone"
+
+        @JvmStatic val CMD_SYS_HISTORY_SPORT = "cmd_sys_history_sport"
+
+        @JvmStatic val CMD_SYS_HISTORY_SLEEP = "cmd_sys_history_sleep"
+
+        @JvmStatic val CMD_SYS_HISTORY_HEART_RATE = "cmd_sys_history_heart_rate"
+
+        @JvmStatic val CMD_SYS_HISTORY = "cmd_sys_history"
     }
 
     var currentAddress: String = targetAddress
@@ -187,6 +206,39 @@ class WristBleService : BleProfileService(), WristBleManager.WristBleCallback {
                     }
                     CMD_GET_DEVICE_INFO -> {
                         wristDecoder.getDeviceInfo()
+                    }
+                    CMD_IDO_GET_HEART_RATE_DATA -> {
+                        wristDecoder.getHeartRate()
+                    }
+                    CMD_IDO_GET_SLEEP_DATA -> {
+                        val dayIndex = intent.getIntExtra(KEY_DATA, 0)
+                        wristDecoder.getSleepRecordData(dayIndex)
+                    }
+
+                    CMD_CALL_PHONE -> {
+                        wristDecoder.callPhone()
+                    }
+
+                    CMD_SEND_SMS -> {
+                        wristDecoder.sendSms()
+                    }
+                    CMD_SYS_HISTORY_SPORT -> {
+                        wristDecoder.sysHistorySport(0x01)
+                    }
+                    CMD_SYS_HISTORY_SLEEP -> {
+                        wristDecoder.sysHistorySleep(0x01)
+                    }
+                    CMD_SYS_HISTORY_HEART_RATE -> {
+                        wristDecoder.sysHistoryHeartRate(0x01)
+                    }
+
+                    CMD_SYS_HISTORY -> {
+                        wristDecoder.sysHistoryData()
+                    }
+
+                    CMD_FIND_PHONE -> {
+                        val code = intent.getIntExtra(KEY_DATA, 0)
+                        wristDecoder.findPhone(code)
                     }
                 }
             }

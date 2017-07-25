@@ -12,14 +12,12 @@ import android.os.Environment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.widget.TextView
 import com.hdr.wristband.ble.SleepRecordData
 import com.hdr.wristband.ble.WristBleService
 import com.hdr.wristband.ble.WristSportData
 import com.hdr.wristband.model.BleDevice
 import com.hdr.wristband.model.LogModel
-import com.hdr.wristband.xrz.ProtocolHelper
 import com.kingnew.health.base.adapter.AmazingAdapter
 import com.kingnew.health.base.adapter.HolderConverter
 import com.kingnew.health.base.adapter.ListAdapter
@@ -188,7 +186,7 @@ class MainActivity : Activity() {
                 WristBleService.CMD_SYN_DATA_START -> {
                     onSynDataStart()
                 }
-                WristBleService.CMD_SYN_TIME->{
+                WristBleService.CMD_SYN_TIME -> {
                     log("同步时间成功")
                 }
                 WristBleService.CMD_SYN_DATA_END -> {
@@ -318,6 +316,41 @@ class MainActivity : Activity() {
             }
             MyMenu.GET_SPORT_DATA -> {
                 wristSendCmd(WristBleService.CMD_GET_SPORT_DATA, 0)
+            }
+
+            MyMenu.GET_SLEEP_DATA -> {
+                wristSendCmd(WristBleService.CMD_IDO_GET_SLEEP_DATA, 0)
+            }
+
+            MyMenu.GET_HEART_RATE -> {
+                wristSendCmd(WristBleService.CMD_IDO_GET_HEART_RATE_DATA)
+            }
+
+            MyMenu.CALL_PHONE -> {
+                wristSendCmd(WristBleService.CMD_CALL_PHONE)
+            }
+
+            MyMenu.SEND_SMS -> {
+                wristSendCmd(WristBleService.CMD_SEND_SMS)
+            }
+
+            MyMenu.FIND_PHONE -> {
+                wristSendCmd(WristBleService.CMD_FIND_PHONE,0xaa)
+            }
+
+            MyMenu.SYS_HISTORY_SPORT -> {
+                wristSendCmd(WristBleService.CMD_SYS_HISTORY_SPORT)
+            }
+
+            MyMenu.SYS_HISTORY_SLEEP -> {
+                wristSendCmd(WristBleService.CMD_SYS_HISTORY_SLEEP)
+            }
+
+            MyMenu.SYS_HISTORY_RATE -> {
+                wristSendCmd(WristBleService.CMD_SYS_HISTORY_HEART_RATE)
+            }
+            MyMenu.SYS_HISTORY -> {
+                wristSendCmd(WristBleService.CMD_SYS_HISTORY)
             }
         }
     }
